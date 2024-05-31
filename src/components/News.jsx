@@ -278,8 +278,11 @@ export default class News extends Component {
                 <div className='row'>
                     {/* Rendering all the articles present in the state */}
                     {this.state.articles.map((elem)=>{
-                        return <div className="col-4" key={elem.url}>
-                            <NewsItem title={elem.title} desc={elem.description} imageUrl={elem.urlToImage} url={elem.url} />
+                        let desc = elem.description ? elem.description : "No description available";
+                        let imageUrl = elem.urlToImage ? elem.urlToImage : "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg";
+
+                        return <div className="col-4 my-1" key={elem.url}>
+                            <NewsItem title={elem.title.slice(0,50)+"..."} desc={desc.slice(0,100) + "..."} imageUrl={imageUrl} url={elem.url} />
                         </div>
                     })}
                 </div>
