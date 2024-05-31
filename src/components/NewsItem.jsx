@@ -3,13 +3,15 @@ import React, { Component } from 'react'
 export default class NewsItem extends Component {
 
     render() {
+        // Object desctructuring, props are used inside function;
+        let {title,desc,imageUrl,newsUrl} = this.props;
         return (
             <div className="card" style={{width:"18rem"}}>
-                <img src="..." className="card-img-top" alt="..." />
+                <img src={imageUrl} className="card-img-top" alt="..." />
                     <div className="card-body">
-                        <h5 className="card-title">{this.props.title}</h5>
-                        <p className="card-text">{this.props.desc}</p>
-                        <a href="/Newsdetail" className="btn btn-primary">Explore</a>
+                        <h5 className="card-title">{title}</h5>
+                        <p className="card-text">{desc}</p>
+                        <a href={`/newsdetail/${newsUrl}`} className="btn btn-sm btn-primary">Read More</a>
                     </div>
             </div>
         )
