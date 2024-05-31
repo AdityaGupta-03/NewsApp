@@ -276,15 +276,12 @@ export default class News extends Component {
             <div className="container">
                 <h1 className='my-3'>NewsApp: Top Headlines</h1>
                 <div className='row'>
-                    <div className="col-4">
-                        <NewsItem title={"Cricket"} desc={"RCB again losses 10th time in a row"} imageUrl={null} />
-                    </div>
-                    <div className="col-4">
-                        <NewsItem title={"Football"} desc={"RCB again losses 10th time in a row"} />
-                    </div>
-                    <div className="col-4">
-                        <NewsItem title={"Badminton"} desc={"RCB again losses 10th time in a row"} />
-                    </div>
+                    {/* Rendering all the articles present in the state */}
+                    {this.state.articles.map((elem)=>{
+                        return <div className="col-4" key={elem.url}>
+                            <NewsItem title={elem.title} desc={elem.description} imageUrl={elem.urlToImage} url={elem.url} />
+                        </div>
+                    })}
                 </div>
             </div>
 
