@@ -25,8 +25,8 @@ export default class News extends Component {
             loading: false,
             page: 1
         }
-        
-        document.title = this.props.category + " | NewsApp";
+        this.category = this.props.category[0].toUpperCase() + this.props.category.slice(1);
+        document.title = this.category + " | NewsApp";
     }
 
     async updateNews(){
