@@ -61,7 +61,7 @@ export default class News extends Component {
     render() {
         return (
             <div className="container">
-                <h1 className='text-center' style={{margin: "40px 0px"}}>NewsApp: Top Headlines</h1>
+                <h1 className='text-center' style={{margin: "40px 0px"}}>NewsApp: Top {this.category} Headlines</h1>
                 {this.state.loading && <Spinner />}
                 <div className='row'>
                     {/* Rendering all the articles present in the state */}
