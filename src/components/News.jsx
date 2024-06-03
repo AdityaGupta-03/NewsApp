@@ -33,18 +33,18 @@ export default class News extends Component {
     async updateNews() {
         this.props.setProgress(10);
         this.setState({ loading: true });
-        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=${this.props.country}&category=${this.props.category}&pagesize=${this.pageSize}&page=${this.state.page}`;
+        const api = `https://newsapi.org/v2/top-headlines?apiKey=${this.props.api}&country=${this.props.country}&category=${this.props.category}&pagesize=${this.pageSize}&page=${this.state.page}`;
         let data = await fetch(api);
         let parsedData = await data.json();
+        
         this.props.setProgress(50);
-
-        let pages = parsedData.totalResults;
 
         this.setState({
             articles: parsedData.articles,
-            totalPages: pages,
+            totalPages: parsedData.totalResults,
             loading: false
         });
+
         this.props.setProgress(100);
     }
 
@@ -64,20 +64,20 @@ export default class News extends Component {
     }
 
     // For the Infinite scrolling
-    fetchData =async ()=>{
-        this.setState({ page: this.state.page + 1 });
-        this.setState({ loading: true });
-        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=${this.props.country}&category=${this.props.category}&pagesize=${this.pageSize}&page=${this.state.page}`;
-        let data = await fetch(api);
-        let parsedData = await data.json();
-        let pages = parsedData.totalResults;
+    // fetchData =async ()=>{
+    //     this.setState({ page: this.state.page + 1 });
+    //     this.setState({ loading: true });
+    //     const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=${this.props.country}&category=${this.props.category}&pagesize=${this.pageSize}&page=${this.state.page}`;
+    //     let data = await fetch(api);
+    //     let parsedData = await data.json();
+    //     let pages = parsedData.totalResults;
 
-        this.setState({
-            articles: this.state.articles.concat(parsedData.articles),
-            totalPages: pages,
-            loading: false
-        });
-    }
+    //     this.setState({
+    //         articles: this.state.articles.concat(parsedData.articles),
+    //         totalPages: pages,
+    //         loading: false
+    //     });
+    // }
     render() {
         return (
             <div className="container">
@@ -93,17 +93,17 @@ export default class News extends Component {
                             <b>Yay! You have seen it all</b>
                         </p>
                     }> */}
-                    <div className='row'>
-                        {/* Rendering all the articles present in the state */}
-                        {!this.state.loading && this.state.articles.map((elem) => {
-                            let desc = elem.description ? elem.description : "No description available";
-                            let imageUrl = elem.urlToImage ? elem.urlToImage : "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg";
+                <div className='row'>
+                    {/* Rendering all the articles present in the state */}
+                    {!this.state.loading && this.state.articles.map((elem) => {
+                        let desc = elem.description ? elem.description : "No description available";
+                        let imageUrl = elem.urlToImage ? elem.urlToImage : "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg";
 
-                            return <div className="col-4 my-3" key={elem.url}>
-                                <NewsItem title={elem.title.slice(0, 50) + "..."} desc={desc.slice(0, 100) + "..."} imageUrl={imageUrl} url={elem.url} author={elem.author} time={elem.publishedAt} source={elem.source.name} />
-                            </div>
-                        })}
-                    </div>
+                        return <div className="col-4 my-3" key={elem.url}>
+                            <NewsItem title={elem.title.slice(0, 50) + "..."} desc={desc.slice(0, 100) + "..."} imageUrl={imageUrl} url={elem.url} author={elem.author} time={elem.publishedAt} source={elem.source.name} />
+                        </div>
+                    })}
+                </div>
                 {/* </InfiniteScroll> */}
                 <div className="d-flex justify-content-around my-3">
                     <button disabled={this.state.page <= 1} type="button" className="btn btn-dark" onClick={this.handlePrev}>&larr; Prev</button>
