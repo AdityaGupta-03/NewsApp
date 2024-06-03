@@ -14,6 +14,7 @@ export default class App extends Component {
         <Navbar />
 
         <Routes>
+        <Route path="/" element={<News key="general" category="general"/>}></Route>
           <Route path="/general" element={<News key="general" category="general"/>}></Route>
           <Route path="/science" element={<News key="science" category="science"/>}></Route>
           <Route path="/technology" element={<News key="technology" category="technology"/>}></Route>
