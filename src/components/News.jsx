@@ -31,11 +31,13 @@ export default class News extends Component {
     }
 
     async updateNews() {
-        this.props.setProgress(0);
+        this.props.setProgress(10);
         this.setState({ loading: true });
         const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=${this.props.country}&category=${this.props.category}&pagesize=${this.pageSize}&page=${this.state.page}`;
         let data = await fetch(api);
         let parsedData = await data.json();
+        this.props.setProgress(50);
+
         let pages = parsedData.totalResults;
 
         this.setState({

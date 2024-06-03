@@ -9,7 +9,7 @@ export default class NewsItem extends Component {
         let date = new Date(this.props.time).toGMTString();
         return (
             <div className="card">
-                <span class="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style={{left:"90%",zIndex:1}}>
+                <span class="position-absolute badge rounded-pill bg-danger" style={{right:0}}>
                     {this.props.source}
                 </span>
                 <img src={imageUrl} className="card-img-top" alt="..." />
