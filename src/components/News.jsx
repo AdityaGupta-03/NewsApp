@@ -5,6 +5,7 @@ export default class News extends Component {
 
     constructor() {
         super();
+        // This.state is the state of the class
         this.state = {
             articles: [],
             loading: false,
@@ -21,7 +22,7 @@ export default class News extends Component {
         let data = await fetch(api);
         let parsedData = await data.json();
 
-        let pages = parsedData.totalResults/pageSize;
+        let pages = Math.ceil(parsedData.totalResults/pageSize);
         this.setState({ 
             articles: parsedData.articles,
             totalPages: pages
