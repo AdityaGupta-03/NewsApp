@@ -14,11 +14,11 @@ export default class App extends Component {
         <Navbar />
 
         <Switch>
-          <Route path="/general"><News category="general"/></Route>
-          <Route path="/science"><News category="science"/></Route>
-          <Route path="/technology"><News category="science"/></Route>
-          <Route path="/business"><News category="business"/></Route>
-          <Route path="/entertainment"><News category="entertainment"/></Route>
+          <Route path="/general"><News key="general" category="general"/></Route>
+          <Route path="/science"><News key="science" category="science"/></Route>
+          <Route path="/technology"><News key="technology" category="technology"/></Route>
+          <Route path="/business"><News key="business" category="business"/></Route>
+          <Route path="/entertainment"><News key="entertainment" category="entertainment"/></Route>
         </Switch>
 
       </BrowserRouter>
