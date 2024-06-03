@@ -89,7 +89,7 @@ export default class News extends Component {
                         let imageUrl = elem.urlToImage ? elem.urlToImage : "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg";
 
                         return <div className="col-4 my-3" key={elem.url}>
-                            <NewsItem title={elem.title.slice(0, 50) + "..."} desc={desc.slice(0, 100) + "..."} imageUrl={imageUrl} url={elem.url} />
+                            <NewsItem title={elem.title.slice(0, 50) + "..."} desc={desc.slice(0, 100) + "..."} imageUrl={imageUrl} url={elem.url} author={elem.author} time={elem.publishedAt} source={elem.source.name}/>
                         </div>
                     })}
                 </div>
