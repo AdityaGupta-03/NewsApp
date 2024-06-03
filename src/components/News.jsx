@@ -33,8 +33,8 @@ export default class News extends Component {
         this.props.setProgress(10);
         this.setState({ loading: true });
         const api = `https://newsapi.org/v2/top-headlines?apiKey=${this.props.api}&country=${this.props.country}&category=${this.props.category}&pagesize=${this.pageSize}&page=${this.state.page}`;
-        let data = await fetch(api);
-        let parsedData = await data.json();
+        let response = await fetch(api);
+        let parsedData = await response.json();
 
         this.props.setProgress(50);
 
