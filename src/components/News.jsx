@@ -28,13 +28,13 @@ export default class News extends Component {
         this.pageSize=9;
     }
 
-    async componentDidMount() {
+    async updateNews(){
         this.setState({loading :true});
         const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=${this.props.country}&category=${this.props.category}&pagesize=${this.pageSize}&page=${this.state.page}`;
         let data = await fetch(api);
         let parsedData = await data.json();
-
         let pages = parsedData.totalResults;
+
         this.setState({
             articles: parsedData.articles,
             totalPages: pages,
@@ -42,39 +42,19 @@ export default class News extends Component {
         });
     }
 
+    async componentDidMount() {
+        this.updateNews();
+    }
+
     // Arrow function automatically binds this with instance of the class
     handleNext = async () => {
-        this.setState({loading :true});
-        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=${this.props.country}&category=${this.props.category}&pagesize=${this.pageSize}&page=${this.state.page + 1}`;
-        try {
-            let data = await fetch(api);
-            let parsedData = await data.json();
-            this.setState({
-                page: this.state.page + 1,
-                articles: parsedData.articles,
-                loading: false
-            });
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            // Handle the error appropriately, e.g., show an error message to the user
-        }
+        this.setState({page: this.state.page + 1});
+        this.updateNews();
     }
 
     handlePrev = async () => {
-        this.setState({loading :true});
-        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=${this.props.country}&category=${this.props.category}&pagesize=${this.pageSize}&page=${this.state.page - 1}`;
-        try {
-            let data = await fetch(api);
-            let parsedData = await data.json();
-            this.setState({
-                page: this.state.page - 1,
-                articles: parsedData.articles,
-                loading:false
-            });
-        } catch (error) {
-            console.error("Error fetching data:", error);
-            // Handle the error appropriately, e.g., show an error message to the user
-        }
+        this.setState({page: this.state.page - 1});
+        this.updateNews();
     }
 
     render() {
