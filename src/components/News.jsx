@@ -16,7 +16,7 @@ export default class News extends Component {
         query: PropTypes.string,
         sources: PropTypes.string
     }
-    
+    pageSize=9;
     constructor(props) {
         super(props);
         // This.state is the state of the class
@@ -25,8 +25,8 @@ export default class News extends Component {
             loading: false,
             page: 1
         }
-        this.pageSize=9;
-        document.title = this.props.category + "|NewsApp";
+        
+        document.title = this.props.category + " | NewsApp";
     }
 
     async updateNews(){
