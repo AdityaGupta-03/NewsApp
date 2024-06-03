@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
+import Spinner from './Spinner';
 
 export default class News extends Component {
 
@@ -15,6 +16,7 @@ export default class News extends Component {
     }
 
     async componentDidMount() {
+        this.setState({loading :true});
         const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&pagesize=${this.pageSize}&page=${this.state.page}`;
         let data = await fetch(api);
         let parsedData = await data.json();
@@ -22,19 +24,22 @@ export default class News extends Component {
         let pages = parsedData.totalResults;
         this.setState({
             articles: parsedData.articles,
-            totalPages: pages
+            totalPages: pages,
+            loading: false
         });
     }
 
     // Arrow function automatically binds this with instance of the class
     handleNext = async () => {
+        this.setState({loading :true});
         const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&pagesize=${this.pageSize}&page=${this.state.page + 1}`;
         try {
             let data = await fetch(api);
             let parsedData = await data.json();
             this.setState({
                 page: this.state.page + 1,
-                articles: parsedData.articles
+                articles: parsedData.articles,
+                loading: false
             });
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -43,13 +48,15 @@ export default class News extends Component {
     }
 
     handlePrev = async () => {
+        this.setState({loading :true});
         const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&pagesize=${this.pageSize}&page=${this.state.page - 1}`;
         try {
             let data = await fetch(api);
             let parsedData = await data.json();
             this.setState({
                 page: this.state.page - 1,
-                articles: parsedData.articles
+                articles: parsedData.articles,
+                loading:false
             });
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -61,9 +68,10 @@ export default class News extends Component {
         return (
             <div className="container">
                 <h1 className='my-3 text-center'>NewsApp: Top Headlines</h1>
+                {this.state.loading && <Spinner />}
                 <div className='row'>
                     {/* Rendering all the articles present in the state */}
-                    {this.state.articles.map((elem) => {
+                    {!this.state.loading && this.state.articles.map((elem) => {
                         let desc = elem.description ? elem.description : "No description available";
                         let imageUrl = elem.urlToImage ? elem.urlToImage : "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg";
 
