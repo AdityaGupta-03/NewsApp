@@ -7,7 +7,7 @@ export default class App extends Component {
     return (
       <div>
         <Navbar />
-        <News />
+        <News category="" country="" query="" sources="" />
       </div>
     )
   }

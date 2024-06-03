@@ -1,9 +1,22 @@
 import React, { Component } from 'react'
 import NewsItem from './NewsItem'
 import Spinner from './Spinner';
+import PropTypes from 'prop-types'
 
 export default class News extends Component {
-
+    static defaultProps ={
+        country : "in",
+        category: "general",
+        query: "",
+        sources: "cnn"
+    }
+    static propTypes = {
+        country: PropTypes.string,
+        category: PropTypes.string,
+        query: PropTypes.string,
+        sources: PropTypes.string
+    }
+    
     constructor() {
         super();
         // This.state is the state of the class
@@ -17,7 +30,7 @@ export default class News extends Component {
 
     async componentDidMount() {
         this.setState({loading :true});
-        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&pagesize=${this.pageSize}&page=${this.state.page}`;
+        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=${this.props.country}&category=${this.props.category}&pagesize=${this.pageSize}&page=${this.state.page}`;
         let data = await fetch(api);
         let parsedData = await data.json();
 
@@ -32,7 +45,7 @@ export default class News extends Component {
     // Arrow function automatically binds this with instance of the class
     handleNext = async () => {
         this.setState({loading :true});
-        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&pagesize=${this.pageSize}&page=${this.state.page + 1}`;
+        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=${this.props.country}&category=${this.props.category}&pagesize=${this.pageSize}&page=${this.state.page + 1}`;
         try {
             let data = await fetch(api);
             let parsedData = await data.json();
@@ -49,7 +62,7 @@ export default class News extends Component {
 
     handlePrev = async () => {
         this.setState({loading :true});
-        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&pagesize=${this.pageSize}&page=${this.state.page - 1}`;
+        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=${this.props.country}&category=${this.props.category}&pagesize=${this.pageSize}&page=${this.state.page - 1}`;
         try {
             let data = await fetch(api);
             let parsedData = await data.json();
