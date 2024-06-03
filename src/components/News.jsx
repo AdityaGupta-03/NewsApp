@@ -80,15 +80,15 @@ export default class News extends Component {
     render() {
         return (
             <div className="container">
-                <h1 className='my-3 text-center'>NewsApp: Top Headlines</h1>
+                <h1 className='text-center' style={{margin: "40px 0px"}}>NewsApp: Top Headlines</h1>
                 {this.state.loading && <Spinner />}
                 <div className='row'>
                     {/* Rendering all the articles present in the state */}
-                    {!this.state.loading && this.state.articles.map((elem) => {
+                    {   !this.state.loading && this.state.articles.map((elem) => {
                         let desc = elem.description ? elem.description : "No description available";
                         let imageUrl = elem.urlToImage ? elem.urlToImage : "https://img.freepik.com/premium-vector/default-image-icon-vector-missing-picture-page-website-design-mobile-app-no-photo-available_87543-11093.jpg";
 
-                        return <div className="col-4 my-1" key={elem.url}>
+                        return <div className="col-4 my-3" key={elem.url}>
                             <NewsItem title={elem.title.slice(0, 50) + "..."} desc={desc.slice(0, 100) + "..."} imageUrl={imageUrl} url={elem.url} />
                         </div>
                     })}
