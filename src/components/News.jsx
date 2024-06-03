@@ -11,40 +11,51 @@ export default class News extends Component {
             loading: false,
             page: 1
         }
-
-        // Binding this with the instance of the class
-        this.handlePrev=this.handlePrev.bind(this);
     }
 
     async componentDidMount() {
-        let pageSize = 9;
-        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&q=space&page=${this.state.page}&pagesize=${pageSize}`;
+        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&pagesize=9&page=${this.state.page}`;
         let data = await fetch(api);
         let parsedData = await data.json();
 
-        let pages = Math.ceil(parsedData.totalResults/pageSize);
-        this.setState({ 
+        let pages = parsedData.totalResults;
+        this.setState({
             articles: parsedData.articles,
             totalPages: pages
-         });
+        });
     }
 
     // Arrow function automatically binds this with instance of the class
-    handleNext = async (params) => {
-        this.setState({ page: this.state.page + 1 });
-        let pageSize = 9;
-        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&q=space&page=${this.state.page}&pagesize=${pageSize}`;
-        let data = await fetch(api);
-        let parsedData = await data.json();
-        this.setState({ articles: parsedData.articles });
+    handleNext = async () => {
+        if (this.state.page + 1 <= Math.ceil(this.state.totalPages / 9)) {
+            const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&pagesize=9&page=${this.state.page + 1}`;
+            try {
+                let data = await fetch(api);
+                let parsedData = await data.json();
+                this.setState({
+                    page: this.state.page + 1,
+                    articles: parsedData.articles
+                });
+            } catch (error) {
+                console.error("Error fetching data:", error);
+                // Handle the error appropriately, e.g., show an error message to the user
+            }
+        }
     }
-    async handlePrev(params) {
-        let pageSize = 9;
-        this.setState({ page: this.state.page - 1 });
-        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&q=space&page=${this.state.page}&pagesize=${pageSize}`;
-        let data = await fetch(api);
-        let parsedData = await data.json();
-        this.setState({ articles: parsedData.articles });
+
+    handlePrev = async () => {
+        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&pagesize=9&page=${this.state.page - 1}`;
+        try {
+            let data = await fetch(api);
+            let parsedData = await data.json();
+            this.setState({
+                page: this.state.page - 1,
+                articles: parsedData.articles
+            });
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            // Handle the error appropriately, e.g., show an error message to the user
+        }
     }
 
     render() {
@@ -63,8 +74,8 @@ export default class News extends Component {
                     })}
                 </div>
                 <div className="d-flex justify-content-around my-3">
-                    <button disabled={this.state.page<=1} type="button" class="btn btn-dark" onClick={this.handlePrev}>&larr; Prev</button>
-                    <button disabled={this.state.page === this.state.totalPages} type="button" class="btn btn-dark" onClick={this.handleNext}>Next &rarr;</button>
+                    <button disabled={this.state.page <= 1} type="button" className="btn btn-dark" onClick={this.handlePrev}>&larr; Prev</button>
+                    <button disabled={this.state.page === Math.ceil(this.state.totalPages / 9)} type="button" className="btn btn-dark" onClick={this.handleNext}>Next &rarr;</button>
                 </div>
             </div>
 
