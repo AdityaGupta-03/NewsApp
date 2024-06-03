@@ -11,10 +11,11 @@ export default class News extends Component {
             loading: false,
             page: 1
         }
+        this.pageSize=9;
     }
 
     async componentDidMount() {
-        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&pagesize=9&page=${this.state.page}`;
+        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&pagesize=${this.pageSize}&page=${this.state.page}`;
         let data = await fetch(api);
         let parsedData = await data.json();
 
@@ -27,24 +28,22 @@ export default class News extends Component {
 
     // Arrow function automatically binds this with instance of the class
     handleNext = async () => {
-        if (this.state.page + 1 <= Math.ceil(this.state.totalPages / 9)) {
-            const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&pagesize=9&page=${this.state.page + 1}`;
-            try {
-                let data = await fetch(api);
-                let parsedData = await data.json();
-                this.setState({
-                    page: this.state.page + 1,
-                    articles: parsedData.articles
-                });
-            } catch (error) {
-                console.error("Error fetching data:", error);
-                // Handle the error appropriately, e.g., show an error message to the user
-            }
+        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&pagesize=${this.pageSize}&page=${this.state.page + 1}`;
+        try {
+            let data = await fetch(api);
+            let parsedData = await data.json();
+            this.setState({
+                page: this.state.page + 1,
+                articles: parsedData.articles
+            });
+        } catch (error) {
+            console.error("Error fetching data:", error);
+            // Handle the error appropriately, e.g., show an error message to the user
         }
     }
 
     handlePrev = async () => {
-        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&pagesize=9&page=${this.state.page - 1}`;
+        const api = `https://newsapi.org/v2/top-headlines?apiKey=e77c1390a15145a89747d06a007c36f6&country=in&category=science&pagesize=${this.pageSize}&page=${this.state.page - 1}`;
         try {
             let data = await fetch(api);
             let parsedData = await data.json();
@@ -61,7 +60,7 @@ export default class News extends Component {
     render() {
         return (
             <div className="container">
-                <h1 className='my-3'>NewsApp: Top Headlines</h1>
+                <h1 className='my-3 text-center'>NewsApp: Top Headlines</h1>
                 <div className='row'>
                     {/* Rendering all the articles present in the state */}
                     {this.state.articles.map((elem) => {
@@ -75,7 +74,7 @@ export default class News extends Component {
                 </div>
                 <div className="d-flex justify-content-around my-3">
                     <button disabled={this.state.page <= 1} type="button" className="btn btn-dark" onClick={this.handlePrev}>&larr; Prev</button>
-                    <button disabled={this.state.page === Math.ceil(this.state.totalPages / 9)} type="button" className="btn btn-dark" onClick={this.handleNext}>Next &rarr;</button>
+                    <button disabled={this.state.page === Math.ceil(this.state.totalPages / this.pageSize)} type="button" className="btn btn-dark" onClick={this.handleNext}>Next &rarr;</button>
                 </div>
             </div>
 
