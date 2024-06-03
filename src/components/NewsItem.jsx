@@ -4,18 +4,22 @@ export default class NewsItem extends Component {
 
     render() {
         // Object desctructuring, props are used inside function;
-        let {title,desc,imageUrl,url} = this.props;
+        let { title, desc, imageUrl, url } = this.props;
+        // let date = this.props.time.split("T")[0];
+        let date = new Date(this.props.time).toGMTString();
         return (
             <div className="card">
+                <span class="position-absolute top-0 translate-middle badge rounded-pill bg-danger" style={{left:"90%",zIndex:1}}>
+                    {this.props.source}
+                </span>
                 <img src={imageUrl} className="card-img-top" alt="..." />
-                    <div className="card-body">
-                        <h5 className="card-title">{title}</h5>
-                        <p className="card-text">{desc}</p>
-                        <p class="card-text"><small class="text-body-secondary">From: {this.props.source}</small></p>
-                        <p class="card-text"><small class="text-body-secondary">By: {this.props.author}</small></p>
-                        <p class="card-text"><small class="text-body-secondary">Date: {this.props.time.split("T")[0]}</small></p>
-                        <a target="_blank" href={`${url}`} className="btn btn-sm btn-primary" rel='noreferrer'>Read More</a>
-                    </div>
+                <div className="card-body">
+                    <h5 className="card-title">{title}</h5>
+                    <p className="card-text">{desc}</p>
+                    <p class="card-text"><small class="text-body-secondary">By: {this.props.author ? this.props.author : "Unknown"}</small></p>
+                    <p class="card-text"><small class="text-body-secondary">Date: {date}</small></p>
+                    <a target="_blank" href={`${url}`} className="btn btn-sm btn-primary" rel='noreferrer'>Read More</a>
+                </div>
             </div>
         )
     }
