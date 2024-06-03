@@ -5,11 +5,12 @@ import PropTypes from 'prop-types'
 // import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default class News extends Component {
+    pageSize = 9;
     static defaultProps = {
         country: "in",
         category: "general",
         query: "",
-        sources: "cnn"
+        sources: ""
     }
     static propTypes = {
         country: PropTypes.string,
@@ -17,7 +18,6 @@ export default class News extends Component {
         query: PropTypes.string,
         sources: PropTypes.string
     }
-    pageSize = 9;
     constructor(props) {
         super(props);
         // This.state is the state of the class
@@ -36,7 +36,7 @@ export default class News extends Component {
         const api = `https://newsapi.org/v2/top-headlines?apiKey=${this.props.api}&country=${this.props.country}&category=${this.props.category}&pagesize=${this.pageSize}&page=${this.state.page}`;
         let data = await fetch(api);
         let parsedData = await data.json();
-        
+
         this.props.setProgress(50);
 
         this.setState({
@@ -110,7 +110,6 @@ export default class News extends Component {
                     <button disabled={this.state.page === Math.ceil(this.state.totalPages / this.pageSize)} type="button" className="btn btn-dark" onClick={this.handleNext}>Next &rarr;</button>
                 </div>
             </div>
-
         )
     }
 }
