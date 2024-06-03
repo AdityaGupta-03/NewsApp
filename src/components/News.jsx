@@ -31,6 +31,7 @@ export default class News extends Component {
 
     async updateNews() {
         this.props.setProgress(10);
+
         this.setState({ loading: true });
         const api = `https://newsapi.org/v2/top-headlines?apiKey=${this.props.api}&country=${this.props.country}&category=${this.props.category}&pagesize=${this.pageSize}&page=${this.state.page}`;
         let response = await fetch(api);
@@ -47,20 +48,24 @@ export default class News extends Component {
         this.props.setProgress(100);
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         this.updateNews();
     }
 
     // Arrow function automatically binds this with instance of the class
-    handleNext = async () => {
-        this.setState({ page: this.state.page + 1 });
-        this.updateNews();
-    }
+    handleNext = () => {
+        this.setState(
+            (prevState) => ({ page: prevState.page + 1 }),
+            this.updateNews
+        );
+    };
 
-    handlePrev = async () => {
-        this.setState({ page: this.state.page - 1 });
-        this.updateNews();
-    }
+    handlePrev = () => {
+        this.setState(
+            (prevState) => ({ page: prevState.page - 1 }),
+            this.updateNews
+        );
+    };
 
     render() {
         return (
