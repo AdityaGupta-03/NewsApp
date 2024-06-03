@@ -17,8 +17,8 @@ export default class News extends Component {
         sources: PropTypes.string
     }
     
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         // This.state is the state of the class
         this.state = {
             articles: [],
@@ -26,6 +26,7 @@ export default class News extends Component {
             page: 1
         }
         this.pageSize=9;
+        document.title = this.props.category + "|NewsApp";
     }
 
     async updateNews(){
